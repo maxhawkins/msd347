@@ -75,9 +75,13 @@ func Connect() (*Printer, error) {
 }
 
 type Printer struct {
-	conn io.ReadWriter
+	conn io.ReadWriteCloser
 
 	statusMu sync.Mutex
+}
+
+func (p *Printer) Close() error {
+	return p.conn.Close()
 }
 
 func (p *Printer) Initialize() error {
